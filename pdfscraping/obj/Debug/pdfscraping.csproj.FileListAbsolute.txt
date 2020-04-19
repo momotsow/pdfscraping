@@ -1,0 +1,10 @@
+C:\Users\user\Videos\pdfscraping\pdfscraping\bin\Debug\pdfscraping.exe.config
+C:\Users\user\Videos\pdfscraping\pdfscraping\bin\Debug\pdfscraping.exe
+C:\Users\user\Videos\pdfscraping\pdfscraping\bin\Debug\pdfscraping.pdb
+C:\Users\user\Videos\pdfscraping\pdfscraping\obj\Debug\pdfscraping.csprojAssemblyReference.cache
+C:\Users\user\Videos\pdfscraping\pdfscraping\obj\Debug\pdfscraping.csproj.CoreCompileInputs.cache
+C:\Users\user\Videos\pdfscraping\pdfscraping\obj\Debug\pdfscraping.exe
+C:\Users\user\Videos\pdfscraping\pdfscraping\obj\Debug\pdfscraping.pdb
+C:\Users\user\Videos\pdfscraping\pdfscraping\bin\Debug\itextsharp.dll
+C:\Users\user\Videos\pdfscraping\pdfscraping\bin\Debug\itextsharp.xml
+C:\Users\user\Videos\pdfscraping\pdfscraping\obj\Debug\pdfscraping.csproj.CopyComplete

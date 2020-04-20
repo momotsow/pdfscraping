@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 
@@ -7,78 +10,76 @@ namespace pdfscraping
 {
     class Program
     {
-        public static int endPage;
-        public static int startPage = 1;
-        public static int pages = 84;
+        public static string input;
+        public static int StartPage = 1, EndPage, Pages = 84;
+ 
+        public static string getBetween(string strSource, string strStart, string strEnd)
+        {
+            int Start, End;
+            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+            {
+                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                End = strSource.IndexOf(strEnd, Start);
+                return strSource.Substring(Start, End - Start);
+            }
+            else
+            {
+                return "";
+            }
+        }
         static void Main(string[] args)
         {
+      
+                do
+            {
+                Console.WriteLine("Enter Start page number: ");
+                input = Console.ReadLine();
+                StartPage = int.Parse(input);
+
+                if (StartPage <= 72 || StartPage > Pages)
+                {
+                    Console.WriteLine("Invalid start page number");
+                }
+                else
+                {
+                    do
+                    {
+                        Console.WriteLine("Enter End page number: ");
+                        input = Console.ReadLine();
+                        EndPage = int.Parse(input);
+
+                        if (EndPage < StartPage || EndPage > Pages)
+                        {
+                            Console.WriteLine("Invalid End page number");
+                        }
+                    } while (EndPage < StartPage || EndPage > Pages);
+                }
+            } while (StartPage <= 0 || StartPage > Pages);
+
+            Console.ReadLine();
+            Console.ReadLine();
+
             StringBuilder text = new StringBuilder();
             using (PdfReader reader = new PdfReader(@"C:\Users\user\Videos\pdfscraping\tender.pdf"))
 
-                do
-                {
-                    Console.WriteLine("Enter your start page: ");
-                    int startPage = Convert.ToInt32(Console.ReadLine());
+                for (int i = StartPage; i < EndPage; i++)
+            {
+                var locationTextExtractionStrategy = new LocationTextExtractionStrategy();
 
-                    if (startPage <= 73 || startPage > pages)
-                    {
-                        Console.WriteLine("Your start page is not valid ");
-                    }
-                    else
-                    {
-                            Console.WriteLine("Enter your end page: ");
-                            int endPage = Convert.ToInt32(Console.ReadLine());
+                string textFromPage = PdfTextExtractor.GetTextFromPage(reader, i + 1, locationTextExtractionStrategy);
 
-                            if (endPage < startPage || endPage > pages)
-                            {
-                                Console.WriteLine("Your end page is not valid ");
-                            }
-                            else
-                            {
-                                for (int i = startPage; i < endPage; i++)
-                                {
-                                    var locationTextExtractionStrategy = new LocationTextExtractionStrategy();
+                textFromPage = Encoding.UTF8.GetString(Encoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(textFromPage)));
 
-                                    string textFromPage = PdfTextExtractor.GetTextFromPage(reader, i + 1, locationTextExtractionStrategy);
+                //Do Something with the text
+                text.Append(PdfTextExtractor.GetTextFromPage(reader, i));
 
-                                    textFromPage = Encoding.UTF8.GetString(Encoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(textFromPage)));
+            }
 
-                                    //Do Something with the text
-                                    text.Append(PdfTextExtractor.GetTextFromPage(reader, i));
-                                }
-                                Console.WriteLine(text.ToString());
-                            }
-                        
-                    }
 
-                }
-                while (startPage <= 0 || startPage > pages);
 
-            
-            /////////////////////////////////////////////////////////////////WORKS/////////////////////////////////////////////////////////////////////////////////
-            //try
-            //{
-            //    StringBuilder text = new StringBuilder();
-            //    using (PdfReader reader = new PdfReader(@"C:\Users\user\Videos\pdfscraping\tender.pdf"))
-            //    {
-            //        for (int i = 73; i <= reader.NumberOfPages; i++)
-            //        {
-            //            text.Append(PdfTextExtractor.GetTextFromPage(reader, i));
-            //        }
-            //    }
-            //    Console.WriteLine(text.ToString());
+            Console.WriteLine(text.ToString());
+            Console.ReadLine();
 
-            //}
-
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("The file could not be read ");
-            //    Console.WriteLine(e.Message);
-            //}
-
-            //Console.Read();
-
-            //////////////////////////////////////////////////////WORKS////////////////////////////////////////////////////////////////////////////////////////
 
         }
     }
